@@ -49,13 +49,13 @@ impl Universe {
 
 #[wasm_bindgen]
 impl Universe {
-    pub fn new() -> Self {
-        let width = 64;
-        let height = 64;
+    pub fn new(w: u32, h: u32, aprob: f32) -> Self {
+        let width = w;
+        let height = h;
 
         let cells = (0..width * height)
             .map(|i| {
-                if i % 2 == 0 || i % 7 == 0 || i % 13 == 0 {
+                if js_sys::Math::random() < aprob as f64 {
                     Cell::Alive
                 } else {
                     Cell::Dead

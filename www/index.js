@@ -1,12 +1,12 @@
 import {Universe, Cell} from "life";
 import {memory} from "life/life_bg";
 
-const CELL_SIZE = 10; // px
+const CELL_SIZE = 3; // px
 const GRID_COLOR = "#CCCCCC";
 const DEAD_COLOR = "#FFFFFF";
 const ALIVE_COLOR = "#000000";
 
-const universe = Universe.new();
+const universe = Universe.new(387, 200, 0.25);
 const height = universe.height();
 const width = universe.width();
 
