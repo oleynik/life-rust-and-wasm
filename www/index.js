@@ -65,14 +65,56 @@ const drawCells = () => {
   context.stroke();
 };
 
-const renderLook = () => {
+canvas.addEventListener("click", event => {
+  const boundingRect = canvas.getBoundingClientRect();
+
+  const scaleX = canvas.width / boundingRect.width;
+  const scaleY = canvas.height / boundingRect.height;
+
+  const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
+  const canvasTop = (event.clientY - boundingRect.top) * scaleY;
+
+  const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), height - 1);
+  const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width - 1);
+
+  universe.toggle_cell(row, col);
+
+  drawGrid();
+  drawCells();
+});
+
+
+let animationId = null;
+const renderLoop = () => {
   universe.tick();
   drawGrid();
   drawCells();
 
-  requestAnimationFrame(renderLook);
+  animationId = requestAnimationFrame(renderLoop);
 };
+
+const isPaused = () => {
+  return animationId == null;
+}
+
+const buttonPlayPause = document.getElementById("play-pause");
+const play = () => {
+  buttonPlayPause.textContent = "⏸";
+  renderLoop();
+}
+const pause = () => {
+  buttonPlayPause.textContent = "▶";
+  cancelAnimationFrame(animationId);
+  animationId = null;
+}
+buttonPlayPause.addEventListener("click", event => {
+  if (isPaused()) {
+    play();
+  } else {
+    pause();
+  }
+});
 
 drawGrid();
 drawCells();
-requestAnimationFrame(renderLook);
+play();

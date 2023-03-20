@@ -8,3 +8,4 @@ node_modules
 **/*.rs.bk
 Cargo.lock
 wasm-pack.log
+.DS_Store
